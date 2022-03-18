@@ -1,4 +1,7 @@
 # Understanding Exceptions
+import sys
+from math import log
+
 DIGIT_MAP = {
     'zero': '0',
     'one': '1',
@@ -12,24 +15,33 @@ DIGIT_MAP = {
     'nine': '9',
 }
 
-x = -1
-
 
 def convert(s):
     try:
         number = ''
         for token in s:
             number += DIGIT_MAP[token]
-        x = int(number)
-    except (KeyError, TypeError):
+        return int(number)
+    except (KeyError, TypeError) as e:
+        print(f"Conversion error: {e!r}", file=sys.stderr)
         pass  # pass is a no-op i.e. does nothing. It is to construct empty blocks to avoid runtime errors
-    return x
+        # return -1
+        raise  # re raise the current exception
 
 
-convert("one three around grillion".split())
+# convert("one three around grillion".split())
+# print(convert("one three three two".split()))
+# convert(512)
+# convert("elephant".split())
 
-convert("one three three two".split())
+def string_log(s):
+    v = convert(s)
+    return log(v)
 
-convert(512)
 
-convert("elephant".split())
+# string_log("ouch!".split())
+
+string_log("two five".split())
+
+# string_log(235)
+string_log("tw".split())
