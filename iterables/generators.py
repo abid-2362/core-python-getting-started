@@ -7,8 +7,8 @@ def take(count, iterable):
     for item in iterable:
         if counter == count:
             return
-    counter += 1
-    yield item
+        counter += 1
+        yield item
 
 
 def distinct(iterable):
@@ -16,12 +16,12 @@ def distinct(iterable):
     for item in iterable:
         if item in seen:
             continue
-    yield item
-    seen.add(item)
+        yield item
+        seen.add(item)
 
 
 def run_pipeline():
-    items = [3, 6, 7, 2, 1, 1]
+    items = [3, 6, 6, 2, 1, 1]
     for item in take(3, distinct(items)):
         print(item)
 
