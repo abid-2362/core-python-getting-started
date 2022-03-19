@@ -1,7 +1,8 @@
-from airtravel import make_flight, console_card_printer
+from airtravel import *
 
-f = make_flight()
+f, g = make_flights()
 
 f.num_available_seats()
 
-f.make_boarding_cards(console_card_printer)
+# f.make_boarding_cards(console_card_printer)
+g.make_boarding_cards(console_card_printer)

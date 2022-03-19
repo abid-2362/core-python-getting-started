@@ -101,23 +101,36 @@ class Flight:
                     yield passenger, f"{row}{letter}"
 
 
-class Aircraft:
+class AirbusA319:
 
-    def __init__(self, registration, model, num_rows, num_seats_per_row):
+    def __init__(self, registration):
         self._registration = registration
-        self._model = model
-        self._num_rows = num_rows
-        self._num_seats_per_row = num_seats_per_row
 
     def registration(self):
         return self._registration
 
     def model(self):
-        return self._model
+        return "Airbus A319"
 
     def seating_plan(self):
-        return (range(1, self._num_rows + 1),
-                "ABCDEFGHJK"[:self._num_seats_per_row])
+        return range(1, 23), "ABCDEF"
+
+
+class Boeing777:
+
+    def __init__(self, registration):
+        self._registration = registration
+
+    def registration(self):
+        return self._registration
+
+    def model(self):
+        return "Boeing 777"
+
+    def seating_plan(self):
+        # For simplicity's sake, we ignore complex
+        # seating arrangement for first-class
+        return range(1, 56), "ABCDEFGHJK"
 
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
@@ -133,8 +146,8 @@ def console_card_printer(passenger, seat, flight_number, aircraft):
     print()
 
 
-def make_flight():
-    f = Flight("BA758", Aircraft(registration="G-EUPT", model="Airbus A319", num_rows=22, num_seats_per_row=6))
+def make_flights():
+    f = Flight("BA758", AirbusA319(registration="G-EUPT"))
     f.allocate_seat("12A", "Abid Ali")
     f.allocate_seat("13A", "Imran Khan")
     f.allocate_seat("15F", "Sajid Ali")
@@ -142,4 +155,10 @@ def make_flight():
     f.allocate_seat("1C", "Nawaz Sharif")
     f.allocate_seat("1D", "Shehbaz Sharif")
     f.allocate_seat("2C", "Fazl ur Rehman")
-    return f
+
+    g = Flight("BA758", Boeing777(registration="F-GSPS"))
+    g.allocate_seat("55K", "Abid Ali")
+    g.allocate_seat("33G", "Imran Khan")
+    g.allocate_seat("4B", "S. Mehmood Quraishi")
+    g.allocate_seat("4A", "Mobeen Quraishi")
+    return f, g
