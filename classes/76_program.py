@@ -1,4 +1,4 @@
-from classes import *
+from airtravel import *
 
 f = Flight("BA758", Aircraft(registration="G-EUPT", model="Airbus A139", num_rows=22, num_seats_per_row=6))
 

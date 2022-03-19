@@ -37,7 +37,16 @@ class Flight:
         Raises:
             ValueError: if the seat is unavailable
         """
+        row, letter = self._parse_seat(seat)
+
+        if self._seating[row][letter] is not None:
+            raise ValueError(f"Seat {seat} already occupied")
+
+        self._seating[row][letter] = passenger
+
+    def _parse_seat(self, seat):
         rows, seat_letters = self._aircraft.seating_plan()
+
         letter = seat[-1]
         if letter not in seat_letters:
             raise ValueError(f"Invalid seat letter '{letter}'")
@@ -51,10 +60,25 @@ class Flight:
         if row not in rows:
             raise ValueError(f"Invalid row number '{row}'")
 
-        if self._seating[row][letter] is not None:
-            raise ValueError(f"Seat {seat} already occupied")
+        return row, letter
 
-        self._seating[row][letter] = passenger
+    def relocate_passenger(self, from_seat, to_seat):
+        """Relocate a apassenger to a different seat
+
+        Args:
+            from_seat: The existing seat designator for the passenger to be moved.
+            to_seat: The new seat designator.
+        """
+        from_row, from_letter = self._parse_seat(from_seat)
+        if self._seating[from_row][from_letter] is None:
+            raise ValueError(f"No passenger to relocate in seat {from_seat}")
+
+        to_row, to_letter = self._parse_seat(to_seat)
+        if self._seating[to_row][to_letter] is not None:
+            raise ValueError(f"Seat {to_seat} already occupied")
+
+        self._seating[to_row][to_letter] = self._seating[from_row][from_letter]
+        self._seating[from_row][from_letter] = None
 
 
 class Aircraft:
@@ -75,5 +99,3 @@ class Aircraft:
         return (range(1, self._num_rows + 1),
                 "ABCDEFGHJK"[:self._num_seats_per_row])
 
-
-a = Aircraft(registration="G-EUPT", model="Airbus A319", num_rows=22, num_seats_per_row=6)
