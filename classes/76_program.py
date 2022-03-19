@@ -1,7 +1,7 @@
-from airtravel import *
+from airtravel import make_flight, console_card_printer
 
-f = Flight("BA758", Aircraft(registration="G-EUPT", model="Airbus A139", num_rows=22, num_seats_per_row=6))
+f = make_flight()
 
-f.allocate_seat('1A', 'Abid Ali')
-f.allocate_seat('1B', 'Sajid Ali')
-f._seating
+f.num_available_seats()
+
+f.make_boarding_cards(console_card_printer)
